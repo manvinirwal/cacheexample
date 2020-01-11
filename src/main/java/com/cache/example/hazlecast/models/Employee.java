@@ -17,6 +17,6 @@ public class Employee {
  private int employeeId;
  private String employeeName;
  private String place;
- private int salary;
+ private double salary;
 
 }
