@@ -48,7 +48,6 @@ public void init() {
 }
 @Cacheable
 public List<Employee> findAll() {
-	simulateSlowService();
     return this.empList;
 }
 //@CachePut
@@ -70,11 +69,4 @@ public  List<Employee> updateEmployee(String employeePlace, double percentInc) {
 	
 }
 
-private void simulateSlowService() {
-    try {
-        Thread.sleep(5000L);
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    }
-}
 }
