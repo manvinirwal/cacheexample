@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -20,11 +22,12 @@ import com.opencsv.CSVReaderBuilder;
 public class EmployeeService {
 private List<Employee>empList=new ArrayList<Employee>();
 private String[] employeeDetails = null;
+private Logger logger = LoggerFactory.getLogger(EmployeeService.class);
 
 public EmployeeService() {}
 
 @PostConstruct
-public void init() {
+public  List<Employee> init() {
 	try {
 	 File file = new File( getClass().getResource("/employee.csv").getFile());
 	 FileReader filereader = new FileReader(file); 
@@ -39,12 +42,15 @@ public void init() {
                  Double.parseDouble(employeeDetails[3]));
          empList.add(emp);
      }
-	 //to load data into cache
-	 List<Employee>emp=findAll();
+	
+	
 	  
 	} catch (Exception e) { 
-        e.printStackTrace(); 
-    } 
+		logger.error("An exception occurred!",e); 
+    }
+	 //to load data into cache
+	 List<Employee>emp=findAll();
+	 return emp;
 }
 @Cacheable
 public List<Employee> findAll() {
